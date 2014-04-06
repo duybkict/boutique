@@ -114,7 +114,7 @@
 											<img width="380" height="230" src="img/products/pillows.png" alt="Gối ôm"></img>
 										</a>
 										<div class="featured-price">
-											<a class="add_cart et-shop-item" href="#">Add To Cart</a>
+											<a class="add_cart et-shop-item" href="#">Thêm Giỏ Hàng</a>
 											<a class="more_info" href="#">Xem thêm</a>
 											<span class="price">300 k</span>
 											<span class="currency_sign"></span>
