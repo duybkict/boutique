@@ -1,7 +1,7 @@
 <?php
 include_once './core/DataContext.php';
 
-$title_for_layout = 'Boutique | Cửa hàng phụ kiện, quà tặng, trang trí';
+$title_for_layout = 'Danh sách sản phẩm | Boutique';
 $db = new DataContext();
 $products = $db->getProducts();
 ?>
@@ -12,10 +12,6 @@ $products = $db->getProducts();
 	<body>
 		<?php include './layout/header.php'; ?>
 
-		<?php include './layout/slides.php'; ?>
-
-		<?php include './layout/featured.php'; ?>
-
 		<div class="container">
 			<div id="content">
 				<div id="main-bg">
@@ -23,11 +19,8 @@ $products = $db->getProducts();
 						
 						<!-- MAIN CONTENT -->
 						<div id="left-area">
-							<h3 class="offer-title">
-								<span>Sản phẩm mới</span>
-							</h3>						
-							<div style="height:63px;"></div>
-							
+							<h1>Văn phòng phẩm</h1>
+
 							<?php
 							foreach ($products as $i => $product) :
 								if (($i + 1) % 4 == 0) echo '<div class="row row-product">';
