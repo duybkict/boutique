@@ -5,6 +5,8 @@ if (!isset($title_for_layout)) $title_for_layout = 'Boutique';
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title><?php echo $title_for_layout; ?></title>
+	
+	<link rel="icon" type="image/png" href="favicon.png" />
 
 	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 	<link rel="stylesheet" href="css/bootstrap-glyphicon.min.css" type="text/css" />
