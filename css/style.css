@@ -45,7 +45,7 @@
 ul#secondary-menu {height:53px;padding-left:16px;}
 ul#secondary-menu li{font-family:'Kreon',Arial,sans-serif;float:left;position:relative}
 ul#secondary-menu a{display:block;float:left;font-size:16px;color:#434343;text-decoration:none;padding:17px 13px 14px}
-ul#secondary-menu a:hover{color:#7cb7b5;background:none}
+ul#secondary-menu a:hover, ul#secondary-menu a.active{color:#7cb7b5;background:none}
 
 #slide-wrapper, #footer {background: url('../img/area-bg.png') repeat scroll 0% 0% #8ED0CE;}
 
@@ -96,7 +96,7 @@ ul#secondary-menu a:hover{color:#7cb7b5;background:none}
 }
 
 #left-area h1 {
-	margin: 40px 0px 50px;
+	margin: 40px 0px 10px;
 	font-weight: normal;
 	font-size: 24px;
 	padding-bottom: 14px;
@@ -163,6 +163,9 @@ h3.offer-title span {
 	height: 43px;
 	padding-right: 16px;
 }
+
+.pager {margin-top:-10px;padding-right:40px; float:right;}
+.pager li {padding:0px 5px;}
 
 .carousel.fade {
 	opacity: 1;

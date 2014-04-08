@@ -9,6 +9,7 @@ class DataContext {
 	private $user = 'root';
 	private $password = '';
 	private $database = 'boutique';
+	public $defaultLimit = 8;
 
 	private function getConnection()
 	{
@@ -24,40 +25,68 @@ class DataContext {
 	public function getProducts($options = array())
 	{
 		$db = $this->getConnection();
-		
+
 		$defaults = array(
-			'limit' => 12,
+			/*'page' => null,*/
+			'limit' => $this->defaultLimit,
 			'offset' => 0,
 			'search' => '',
-			'published' => 1
-		);		
+			'published' => 1,
+			'category_id' => '%'
+		);
 		$options = array_merge($defaults, $options);
-		
-		$limit = $options['limit'];
-		$offset = $options['offset'];
-		$search = '%'.$options['search'].'%';
+				
+		if (isset($options['page'])) {
+			$limit = $this->defaultLimit;
+			$offset = ($options['page'] - 1) * $this->defaultLimit;
+		} else {
+			$limit = $options['limit'];
+			$offset = $options['offset'];
+		}
+		$search = '%' . $options['search'] . '%';
 		$published = $options['published'];
 		if (is_array($published)) {
 			$published = implode(',', $published);
 		}
-		
+		$categoryId = $options['category_id'];
+		if (is_array($categoryId)) {
+			$categoryId = implode(',', $categoryId);
+		}
+
 		$statement = $db->prepare(
-			"SELECT * FROM `products`
-			WHERE `published` IN (?) AND (`name` LIKE ? OR `description` LIKE ? OR `short_description` LIKE ?)
+				"SELECT * FROM `products`
+			WHERE (`published` IN (?) OR `published` LIKE ?)
+			AND (`category_id` IN (?) OR `category_id` LIKE ?)
+			AND (`name` LIKE ? OR `description` LIKE ? OR `short_description` LIKE ?)
 			ORDER BY `published_date` DESC
 			LIMIT ? OFFSET ?");
-		$statement->bind_param('ssssii', $published, $search, $search, $search, $limit, $offset);
+		$statement->bind_param('sssssssii', $published, $published, $categoryId, $categoryId, $search, $search, $search, $limit, $offset);
 		$statement->execute();
 
 		$products = array();
 		$product = new Product();
 		$statement->bind_result($product->id, $product->name, $product->shortDescription, $product->description, $product->image, $product->categoryId, $product->price, $product->published, $product->publishedDate, $product->createdDate, $product->modifiedDate);
 		while ($statement->fetch()) {
-			$products[] =  unserialize(serialize($product));
+			$products[] = unserialize(serialize($product));
 		}
 
 		$statement->close();
+		$db->close();
+
 		return $products;
+	}
+
+	public function getCountProducts($options = array())
+	{
+		unset($options['page']);
+		$options['offset'] = 0;
+		$options['limit'] = PHP_INT_MAX;
+		return count($this->getProducts($options));
+	}
+
+	public function getPageCountProducts($options = array())
+	{
+		return (int) ceil($this->getCountProducts($options) / $this->defaultLimit);
 	}
 
 	public function getCategories($options = array())
@@ -65,16 +94,16 @@ class DataContext {
 		$db = $this->getConnection();
 
 		$defaults = array(
-			'limit' => 12,
+			'limit' => $this->defaultLimit,
 			'offset' => 0,
 			'search' => '',
-		);		
+		);
 		$options = array_merge($defaults, $options);
-		
+
 		$limit = $options['limit'];
 		$offset = $options['offset'];
-		$search = '%'.$options['search'].'%';
-		
+		$search = '%' . $options['search'] . '%';
+
 		$statement = $db->prepare(
 				"SELECT * FROM `categories` 
 				WHERE `name` LIKE ?
@@ -90,12 +119,32 @@ class DataContext {
 		}
 
 		$statement->close();
+		$db->close();
+
 		return $categories;
 	}
-	
-	public function getCategoryById($id) 
+
+	public function getCategoryById($id)
 	{
-		
+		$db = $this->getConnection();
+
+		$statement = $db->prepare(
+				"SELECT * FROM `categories` 
+				WHERE `id` = ?
+				LIMIT 1 OFFSET 0");
+		$statement->bind_param('i', $id);
+		$statement->execute();
+
+		$category = new Category();
+		$statement->bind_result($category->id, $category->name, $category->createdDate, $category->modifiedDate);
+		if (!$statement->fetch()) {
+			$category = null;
+		}
+
+		$statement->close();
+		$db->close();
+
+		return $category;
 	}
 
 }

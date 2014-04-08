@@ -11,8 +11,8 @@ $categories = $db->getCategories();
 	<h2>Danh mục sản phẩm</h2>									
 	<ul class="right-area-bg" style="padding-top: 20px">
 		
-		<?php foreach ($categories as $category) : ?>
-			<li><a href="products.php"><?php echo $category->name; ?></a></li>
+		<?php foreach ($categories as $c) : ?>
+			<li><a href="products.php?category=<?php echo $c->id; ?>"><?php echo $c->name; ?></a></li>
 		<?php endforeach; ?>
 
 	</ul>

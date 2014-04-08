@@ -35,6 +35,14 @@ CREATE TABLE orders (
 	modified_date DATETIME
 )  DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+CREATE TABLE users (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	email VARCHAR(512) NOT NULL,
+	password VARCHAR(512) NOT NULL,
+	created_date DATETIME,
+	modified_date DATETIME
+)  DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 CREATE TABLE order_items (
 	item_id INT,
 	order_id INT,
@@ -105,6 +113,27 @@ DROP TRIGGER IF EXISTS tgg_update_orders;
 delimiter //
 CREATE TRIGGER tgg_update_orders
 BEFORE UPDATE ON orders
+FOR EACH ROW 
+BEGIN
+	SET NEW.modified_date = now();
+END;//
+delimiter ;
+
+DROP TRIGGER IF EXISTS tgg_insert_users;
+delimiter //
+CREATE TRIGGER tgg_insert_users
+BEFORE INSERT ON users
+FOR EACH ROW 
+BEGIN
+	SET NEW.created_date = now();
+	SET NEW.modified_date = now();
+END;//
+delimiter ;
+
+DROP TRIGGER IF EXISTS tgg_update_users;
+delimiter //
+CREATE TRIGGER tgg_update_users
+BEFORE UPDATE ON users
 FOR EACH ROW 
 BEGIN
 	SET NEW.modified_date = now();
@@ -202,6 +231,6 @@ INSERT INTO products(name, short_description, description, image, category_id, p
 VALUES ('Cốc sứ', 
 		'Ut lacinia dolor sed diam auctor sodales. Morbi dapibus suscipit laoreet. Quisque bibendum iaculis augue tempus posuere. ', 
 		'<p>Ut lacinia dolor sed diam auctor sodales. Morbi dapibus suscipit laoreet. Quisque bibendum iaculis augue tempus posuere. </p>', 
-		'img/products/12.jpg', 
+		'img/products/12.png', 
 		5, 50);
 -- SELECT * FROM products

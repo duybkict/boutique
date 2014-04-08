@@ -13,6 +13,5 @@ class Product {
 	public $publishedDate;
 	public $createdDate;
 	public $modifiedDate;
-	public $category;
 
 }

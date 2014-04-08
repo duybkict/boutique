@@ -3,7 +3,7 @@ include_once './core/DataContext.php';
 
 $title_for_layout = 'Boutique | Cửa hàng phụ kiện, quà tặng, trang trí';
 $db = new DataContext();
-$products = $db->getProducts();
+$products = $db->getProducts(array('limit' => 12));
 ?>
 
 <html>
@@ -29,16 +29,16 @@ $products = $db->getProducts();
 							<div style="height:63px;"></div>
 							
 							<?php
-							foreach ($products as $i => $product) :
+							foreach ($products as $i => $p) :
 								if (($i + 1) % 4 == 0) echo '<div class="row row-product">';
 							?>
 								<div class="cell-product col-xs-3">
 									<div class="main-item">
 										<a href="#">
-											<img class="thumb" src="<?php echo $product->image; ?>" />
-											<span class="price-tag"><?php echo $product->price; ?>k</span>
+											<img class="thumb" src="<?php echo $p->image; ?>" />
+											<span class="price-tag"><?php echo $p->price; ?>k</span>
 										</a>
-										<h3><a href="#"><?php echo $product->name; ?></a></h3>
+										<h3><a href="#"><?php echo $p->name; ?></a></h3>
 									</div>
 								</div>
 							<?php
