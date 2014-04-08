@@ -14,6 +14,10 @@ if (isset($_GET['category'])) {
 	if ($category == null) {
 		header('Location: products.php');
 	}
+	
+	$active = $categoryId;
+} else {
+	$active = 0;
 }
 
 $page = $_GET['page'];

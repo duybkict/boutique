@@ -18,9 +18,9 @@ $categories = $db->getCategories(array('limit' => 7));
 			<ul id="secondary-menu" class="nav">
 
 				<?php foreach ($categories as $c) : ?>
-					<li><a href="products.php?category=<?php echo $c->id; ?>" class="<?php echo ($_GET['category'] == $c->id) ? 'active' : ''; ?>"><?php echo $c->name; ?></a></li>
+					<li><a href="products.php?category=<?php echo $c->id; ?>" class="<?php echo $active == $c->id ? 'active' : ''; ?>"><?php echo $c->name; ?></a></li>
 				<?php endforeach; ?>
-				<li><a href="products.php" class="<?php echo !isset($_GET['category']) ? 'active' : ''; ?>">Xem tất cả</a></li>
+				<li><a href="products.php" class="<?php echo isset($active) && $active == 0 ? 'active' : ''; ?>">Xem tất cả</a></li>
 
 			</ul>
 		</div>
