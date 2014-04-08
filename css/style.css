@@ -195,3 +195,7 @@ h3.offer-title span {
 	transition: opacity ease-in-out 0.4s;
 	z-index:2;
 }
+
+a:focus, button:focus {outline: none;}
+button::-moz-focus-inner {border: 0;}
+
